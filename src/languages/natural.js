@@ -1,0 +1,189 @@
+/*
+Language: NATURAL (Software AG)
+Author: marioosh <marioosh@marioosh.net>
+Description: NATURAL
+Category: natural
+*/
+
+function(hljs) {
+  var natural_keywords = 
+`IF
+END-IF
+END-REPEAT
+END-DECIDE
+DEFINE DATA
+GLOBAL USING
+SUBROUTINE
+END-SUBROUTINE
+REDEFINE
+END-DEFINE
+FOR
+END-FOR
+ACCEPT
+REJECT
+ADD
+ASSIGN
+BACKOUT TRANSACTION
+BEFORE BREAK PROCESSING
+CALL
+CALL FILE
+CALL LOOP
+CALLDBPROC
+CALLNAT
+CLOSE CONVERSATION
+CLOSE PC FILE
+CLOSE PRINTER
+CLOSE WORK FILE
+COMMIT
+COMPOSE
+COMPRESS
+COMPUTE
+CREATE OBJECT
+DECIDE FOR
+DECIDE ON
+DEFINE CLASS
+DEFINE DATA
+DEFINE FUNCTION
+DEFINE PRINTER
+DEFINE PROTOTYPE
+DEFINE SUBROUTINE
+DEFINE WINDOW
+DEFINE WORK FILE
+DELETE
+DELETE
+DISPLAY
+DIVIDE
+DO
+DOEND
+DOWNLOAD PC FILE
+EJECT
+END
+END TRANSACTION
+ESCAPE
+EXAMINE
+EXPAND
+FETCH
+FIND
+FOR
+FORMAT
+GET
+GET SAME
+GET TRANSACTION DATA
+HISTOGRAM
+IF
+IF SELECTION
+IGNORE
+INCLUDE
+INPUT
+INSERT
+INTERFACE
+LIMIT
+LOOP
+MERGE
+METHOD
+MOVE INDEXED
+MOVE
+MULTIPLY
+NEWPAGE
+OBTAIN
+ON ERROR
+OPEN CONVERSATION
+OPTIONS
+PARSE XML
+PASSW
+PERFORM BREAK PROCESSING
+PERFORM
+PRINT
+PROCESS COMMAND
+PROCESS PAGE
+PROCESS
+PROCESS SQL
+PROPERTY
+READ
+READ RESULT SET
+READ WORK FILE
+READLOB
+REDEFINE
+REDUCE
+REINPUT
+REJECT
+RELEASE
+REPEAT
+REQUEST DOCUMENT
+RESET
+RESIZE
+RETRY
+ROLLBACK
+RUN
+SELECT
+SEND METHOD
+SEPARATE
+SET CONTROL
+SET GLOBALS
+SET KEY
+SET TIME
+SET WINDOW
+SKIP
+SORT
+STACK
+STOP
+STORE
+SUBTRACT
+SUSPEND IDENTICAL SUPPRESS
+TERMINATE
+UPDATE
+UPDATE
+UPDATELOB
+UPLOAD PC FILE
+WRITE TITLE
+WRITE TRAILER
+WRITE WORK FILE
+WRITE
+VIEW
+MASTER-BLOCK
+RETURN
+`
+var natural_keywords_stripped = natural_keywords.replace(/(?:\r\n|\r|\n)/g, ' ');
+var NATURAL_NUMBER_RE = '\\b' +
+  '(' +
+    '0[bB]([01]+[01_]+[01]+|[01]+)' + // 0b...
+    '|' +
+    '0[xX]([a-fA-F0-9]+[a-fA-F0-9_]+[a-fA-F0-9]+|[a-fA-F0-9]+)' + // 0x...
+    '|' +
+    '(' +
+      '([\\d]+[\\d_]+[\\d]+|[\\d]+)(\\.([\\d]+[\\d_]+[\\d]+|[\\d]+))?' +
+      '|' +
+      '\\.([\\d]+[\\d_]+[\\d]+|[\\d]+)' +
+    ')' +
+    '([eE][-+]?\\d+)?' + // octal, decimal, float
+  ')' +
+  '[lLfF]?';
+var NATURAL_NUMBER_MODE = {
+  className: 'number',
+  begin: NATURAL_NUMBER_RE,
+  relevance: 0
+};
+  return {
+  case_insensitive: true, // language is case-insensitive
+  keywords: natural_keywords_stripped,
+  contains: [
+    {
+      className: 'string',
+      begin: '\'', end: '\''
+    },
+    NATURAL_NUMBER_MODE,
+    {
+      className: 'header',
+      begin: '^\\-{6}\\*', end: '\n'
+    },
+    hljs.COMMENT(
+      '^\\*', // begin
+      '\n' // end
+    ),
+    hljs.COMMENT(
+      '/\\*', // begin
+      '\n' // end
+    )
+  ]
+  };
+}

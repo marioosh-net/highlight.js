@@ -1,0 +1,193 @@
+***
+* COMMENTS 1 ...
+* COMMENTS 2 ...
+*
+DEFINE DATA
+GLOBAL USING MANGLOB WITH MASTER-BLOCK
+LOCAL USING L-ABSSEE
+LOCAL
+1 #BELKAIN (A78)
+1 #W       (A80)
+1 #NAZIM (A040)
+*
+1 V1 VIEW OF ORDERS-1
+  2 DATA-END
+  2 SDA
+  2 TEST-DATA
+*
+1 V2 VIEW OF PERSONS-N
+  2 KEY1
+  2 REDEFINE KEY1
+    3 NR-COL                          (B1)
+    3 TYPE-REC                        (A1)
+    3 DATE-MOD                        (D)
+    3 WARN                            (A1)
+  2 X32
+*
+1 #SUM-TNFX47-3(N9)
+1 REDEFINE #SUM-TNFX47-3
+  2 #N(N1/1:9)
+  2 REDEFINE #N
+    3 #A(A1/1:9)
+*
+1 #GROUP(A8)
+END-DEFINE
+*
+DEFINE WINDOW W2
+  SIZE 23*74
+  BASE 1/4
+  FRAMED ON (CD=BL)
+*
+*
+PERFORM GET-ACC #USER #GROUP /* SOME COMMENTS
+* #USER := *USER
+*
+SET KEY PF3 PF7 PF8 PF9 PF4 PF5 PF6 PF10
+*
+REPEAT
+  INPUT WINDOW='W2'
+    '        ORD-CODEYN' (CD=YE) /
+    'TYPE: ' (CD=TU) *OUTIN #TYPE (CD=NE AD='_') /
+    'CODE   : ' (CD=TU) *OUTIN #CODE (CD=NE AD='_') /
+    '                                           ' /
+    'F6' (CD=NE AD=V) 'UNION' (CD=TU) 'F10' (CD=NE AD=V) 'BY TEXT'
+       (CD=TU)
+  DECIDE ON FIRST VALUE OF *PF-KEY
+    VALUE 'PF3'
+      ESCAPE ROUTINE
+    VALUE 'PF6'
+      #UNIA := TRUE
+      #TYPE := '99 '
+      PERFORM NEXT1
+    VALUE 'PF10'
+      PERFORM BYTEXT1
+    NONE VALUE
+      #UNIA := FALSE
+      PERFORM NEXT1
+  END-DECIDE
+END-REPEAT
+*
+*
+DEFINE SUBROUTINE BYTEXT1
+SET KEY PF3 PF7 PF8 PF9 PF4 PF5
+*
+REPEAT
+  INPUT WINDOW='W5'
+    '        ORD-CODEYN' (CD=YE) /
+    'TEKST1: ' (CD=TU) *OUTIN #TEKST1 (CD=NE AD='_') /
+    '                                           ' /
+  DECIDE ON FIRST VALUE OF *PF-KEY
+    VALUE 'PF3'
+      ESCAPE ROUTINE
+    NONE VALUE
+      #BYTEXT1 := TRUE
+      PERFORM NEXT1
+      #BYTEXT1 := FALSE
+  END-DECIDE
+END-REPEAT
+END-SUBROUTINE /* BYTEXT1
+*
+*
+*
+DEFINE SUBROUTINE NEXT1
+*
+*** COMMENTS ...
+*
+RESET #TISN #PISN #OISN #GISN #OKL #READING1 #DIR-POP
+RESET INITIAL #DIR #PIER-RAZ
+ASSIGN #OKL.TYPE = #TYPE
+ASSIGN #OKL.CODE    = #CODE
+#TKL := #PKL := #OKL
+RESET #TISN #PISN #OISN
+*
+*** COMMENTS ...
+*
+RESET #TISN2 #PISN2 #OISN2 #GISN2 #OKL2 #READING12 #DIR-POP2
+RESET INITIAL #DIR2 #PIER-RAZ2
+ASSIGN #OKL2 = #TEKST1
+#TKL2 := #PKL2 := #OKL2
+RESET #TISN2 #PISN2 #OISN2
+*
+IF NOT #BYTEXT1
+  PERFORM GETRECS
+ELSE
+  PERFORM GETRECS2
+END-IF
+REPEAT
+* INPUT WINDOW='W1' USING MAP 'MAP21'
+  /* MOVE (AD=P) TO ATTR.SUM
+  /* MOVE (AD=P) TO ATTR.YEAR
+  INPUT USING MAP 'MAP21'
+  DECIDE ON FIRST VALUE OF *PF-KEY
+    VALUE 'PF3'
+      ESCAPE BOTTOM
+    VALUE 'PF7'
+      IF NOT #BYTEXT1
+        #DIR := 'D'
+        PERFORM GETRECS
+      ELSE
+        #DIR2 := 'D'
+        PERFORM GETRECS2
+      END-IF
+    VALUE 'PF8'
+      IF NOT #BYTEXT1
+        #DIR := 'A'
+        PERFORM GETRECS
+      ELSE
+        #DIR2 := 'A'
+        PERFORM GETRECS2
+      END-IF
+    VALUE 'PF5'
+      IF NOT ( #USER EQ #ADMINS(*) )
+        PERFORM ACCESS-DENIED
+      ELSE
+        #MESS := 'ARE YOU SURE, SAVE ?'
+        PERFORM TN
+        IF #TN EQ 'T'
+            G1.
+          GET V1 #ISN
+          MOVE BY NAME TAB TO V1
+          UPDATE (G1.)
+          END TRANSACTION
+        END-IF
+      END-IF
+    VALUE 'PF6'
+      IF NOT ( #USER EQ #ADMINS(*) )
+        PERFORM ACCESS-DENIED
+      ELSE
+        #MESS := 'ADD, ARE YOU SURE ?'
+        PERFORM TN
+        IF #TN EQ 'T'
+          RESET V1
+          MOVE BY NAME TAB TO V1
+          STORE V1
+          END TRANSACTION
+        END-IF
+      END-IF
+    VALUE 'PF4'
+      IF NOT ( #USER EQ #ADMINS(*) )
+        PERFORM ACCESS-DENIED
+      ELSE
+        #MESS := 'ARE YOU SURE ?'
+        PERFORM TN
+        IF #TN EQ 'T'
+            D1.
+          GET V1 #ISN
+          DELETE (D1.)
+          END TRANSACTION
+          #DIR := 'A'      /* COMMENTS
+          PERFORM GETRECS  /*
+        END-IF
+      END-IF
+    VALUE 'PF9'
+      RESET TAB
+      FETCH RETURN 'PROC1'
+    NONE VALUE
+      IGNORE
+  END-DECIDE
+END-REPEAT
+*
+END-SUBROUTINE /* NEXT1
+
+END
+
