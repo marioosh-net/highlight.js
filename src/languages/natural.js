@@ -154,9 +154,116 @@ var multiword_meta =
 var other_re = 
 `\\*PF-KEY`
 
+var system_var = 
+`\\*APPLIC-ID
+\\*APPLIC-NAME
+\\*BROWSER-IO
+\\*CODEPAGE
+\\*COM
+\\*CONVID
+\\*COUNTER (r)
+\\*CPU-TIME
+\\*CURRENT-UNIT
+\\*CURS-COL
+\\*CURS-FIELD
+\\*CURS-LINE
+\\*CURSOR
+\\*DATD
+\\*DAT4D
+\\*DATE
+\\*DAT4E
+\\*DATG
+\\*DATI
+\\*DAT4I
+\\*DATJ
+\\*DAT4J
+\\*DATN
+\\*DATU
+\\*DAT4U
+\\*DATV
+\\*DATVS
+\\*DATX
+\\*DATA
+\\*DEVICE
+\\*ERROR-LINE
+\\*ERROR-NR
+\\*ERROR-TA
+\\*ETID
+\\*GROUP
+\\*HARDCOPY
+\\*HARDWARE
+\\*HOSTNAME
+\\*INIT-ID
+\\*INIT-PROGRAM
+\\*INIT-USER
+\\*ISN (r)
+\\*LANGUAGE
+\\*LBOUND
+\\*LENGTH (field)
+\\*LEVEL
+\\*LIBRARY-ID
+\\*LINE-COUNT
+\\*LINESIZE
+\\*LINE
+\\*LINEX
+\\*LOCALE
+\\*LOG-LS
+\\*LOG-PS
+\\*MACHINE-CLASS
+\\*NATVERS
+\\*NET-USER
+\\*NUMBER (r)
+\\*OCCURRENCE
+\\*OPSYS
+\\*OS
+\\*OSVERS
+\\*PAGE-EVENT
+\\*PAGE-LEVEL
+\\*PAGE-NUMBER
+\\*PAGESIZE
+\\*PARM-USER
+\\*PARSE-COL (r)
+\\*PARSE-LEVEL (r)
+\\*PARSE-NAMESPACE-URI (r)
+\\*PARSE-ROW (r)
+\\*PARSE-TYPE (r)
+\\*PATCH-LEVEL
+\\*PF-KEY
+\\*PF-NAME
+\\*PID
+\\*PROGRAM
+\\*REINPUT-TYPE
+\\*ROWCOUNT
+\\*SCREEN-IO
+\\*SERVER-TYPE
+\\*STARTUP
+\\*STEPLIB
+\\*SUBROUTINE
+\\*THIS-OBJECT
+\\*TIMD
+\\*TIME
+\\*TIME-OUT
+\\*TIMESTMP
+\\*TIMN
+\\*TIMX
+\\*TPSYS
+\\*TP
+\\*TPVERS
+\\*TYPE
+\\*UBOUND
+\\*UI
+\\*USER-NAME
+\\*USER
+\\*WINDOW-LS
+\\*WINDOW-POS
+\\*WINDOW-PS
+\\*WINMGR
+\\*WINMGRVERS`
+
 var natural_keywords_stripped = natural_keywords.replace(/(?:\r\n|\r|\n)/g, ' ');
 var multiword_keywords_re = multiword_keywords.replace(/(?:\r\n|\r|\n)/g, '|');
 var multiword_meta_re = multiword_meta.replace(/(?:\r\n|\r|\n)/g, '|');
+var system_variables_re = system_var.replace(/(?:\r\n|\r|\n)/g, '|');
 
 var NATURAL_NUMBER_RE = '\\b' +
   '(' +
@@ -181,7 +288,7 @@ var NATURAL_NUMBER_RE = '\\b' +
   // 1 #ABC (N10),(D),(B4),(P9.2),(N7.2),(P2),(L)
   var TYPE_DEF = {
     className: 'type',
-    begin: '\\(([ANPB]\\d+|[NP]\\d+\\.\\d+|D|L)',
+    begin: '\\(([ANPBUI]\\d+|[NP]\\d+\\.\\d+|D|L|T|C)',
     end: '\\)'
   };  
   var TYPE_DEF2 = {
@@ -190,7 +297,7 @@ var NATURAL_NUMBER_RE = '\\b' +
     contains: [
       {
         className: 'type',
-        begin: '([ANPB]\\d+|[NP]\\d+\\.\\d+|D|L)',
+        begin: '([ANPBUI]\\d+|[NP]\\d+\\.\\d+|D|L|T|C)',
         relevance: 10
       }
     ]
@@ -226,8 +333,8 @@ var NATURAL_NUMBER_RE = '\\b' +
         begin: multiword_meta_re, end: ''
       },            
       {
-        className: 'built_in',
-        begin: other_re, end: ''
+        className: 'symbol',
+        begin: system_variables_re, end: ''
       },
       NATURAL_NUMBER_MODE,
       TYPE_DEF,
