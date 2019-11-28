@@ -8,6 +8,7 @@ Category: natural
 function(hljs) {
   var natural_keywords = 
 `IF
+ELSE
 GLOBAL USING
 SUBROUTINE
 END-DEFINE
