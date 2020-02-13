@@ -5,7 +5,7 @@ Description: NATURAL
 Category: natural
 */
 
-function(hljs) {
+export default function(hljs) {
   var natural_keywords = 
 `IF
 ELSE
