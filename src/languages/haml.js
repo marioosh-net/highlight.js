@@ -1,5 +1,5 @@
 /*
-Language: Haml
+Language: HAML
 Requires: ruby.js
 Author: Dan Allen <dan.j.allen@gmail.com>
 Website: http://haml.info
@@ -7,7 +7,7 @@ Category: template
 */
 
 // TODO support filter tags like :javascript, support inline HTML
-function(hljs) {
+export default function(hljs) {
   return {
     case_insensitive: true,
     contains: [

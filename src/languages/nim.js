@@ -1,11 +1,11 @@
 /*
-Language: Nim (formerly Nimrod)
+Language: Nim
 Description: Nim is a statically typed compiled systems programming language.
 Website: https://nim-lang.org
 Category: system
 */
 
-function(hljs) {
+export default function(hljs) {
   return {
     aliases: ['nim'],
     keywords: {

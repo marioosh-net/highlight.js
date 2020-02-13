@@ -6,7 +6,7 @@ Website: http://irpf90.ups-tlse.fr
 Category: scientific
 */
 
-function(hljs) {
+export default function(hljs) {
   var PARAMS = {
     className: 'params',
     begin: '\\(', end: '\\)'
@@ -75,7 +75,8 @@ function(hljs) {
       hljs.COMMENT('begin_doc', 'end_doc', {relevance: 10}),
       {
         className: 'number',
-        begin: '(?=\\b|\\+|\\-|\\.)(?=\\.\\d|\\d)(?:\\d+)?(?:\\.?\\d*)(?:[de][+-]?\\d+)?\\b\\.?',
+        // regex in both fortran and irpf90 should match
+        begin: '(?=\\b|\\+|\\-|\\.)(?:\\.|\\d+\\.?)\\d*([de][+-]?\\d+)?(_[a-z_\\d]+)?',
         relevance: 0
       }
     ]

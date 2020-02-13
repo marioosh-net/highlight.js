@@ -20,6 +20,7 @@ Former maintainers:
 Contributors:
 
 - Peter Leonov <gojpeg@gmail.com>
+- Vanessa Sochat <@vsoch>
 - Victor Karamzin <Victor.Karamzin@enterra-inc.com>
 - Vsevolod Solovyov <vsevolod.solovyov@gmail.com>
 - Anton Kovalyov <anton@kovalyov.net>
@@ -271,6 +272,7 @@ Contributors:
 - Harmon <Harmon.Public@gmail.com>
 - Eric Bailey <eric.w.bailey@gmail.com>
 - Gustavo Costa <gusbemacbe@gmail.com>
+- Jeffrey Arnold <jeffrey.arnold@gmail.com>
 - Antoine Boisier-Michaud <aboisiermichaud@gmail.com>
 - Alejandro Isaza <al@isaza.ca>
 - Laurent Voullemier <laurent.voullemier@gmail.com>
@@ -282,3 +284,4 @@ Contributors:
 - Carl Baxter <carl@cbax.tech>
 - Thomas Reichel <tom.p.reichel@gmail.com>
 - G8t Guy <g8tguy@g8tguy.com>
+- Samia Ali <samiaab1990@gmail.com>

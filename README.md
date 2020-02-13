@@ -1,6 +1,6 @@
 # Highlight.js
 
-[![Build Status](https://travis-ci.org/highlightjs/highlight.js.svg?branch=master)](https://travis-ci.org/highlightjs/highlight.js) [![Greenkeeper badge](https://badges.greenkeeper.io/highlightjs/highlight.js.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/highlightjs/highlight.js.svg?branch=master)](https://travis-ci.org/highlightjs/highlight.js) [![Greenkeeper badge](https://badges.greenkeeper.io/highlightjs/highlight.js.svg)](https://greenkeeper.io/) [![install size](https://packagephobia.now.sh/badge?p=highlight.js)](https://packagephobia.now.sh/result?p=highlight.js)
 
 Highlight.js is a syntax highlighter written in JavaScript. It works in
 the browser as well as on the server. It works with pretty much any
@@ -15,7 +15,7 @@ library along with one of the styles and calling
 
 ```html
 <link rel="stylesheet" href="/path/to/styles/default.css">
-<script src="/path/to/highlight.pack.js"></script>
+<script src="/path/to/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 ```
 
@@ -27,12 +27,38 @@ work for you, you can specify the language in the `class` attribute:
 <pre><code class="html">...</code></pre>
 ```
 
+Classes may also be prefixed with either `language-` or `lang-`.
+
+```html
+<pre><code class="language-html">...</code></pre>
+```
+
+### Plaintext and Disabling Highlighting
+
+To style arbitrary text like code, but without any highlighting, use the
+`plaintext` class:
+
+```html
+<pre><code class="plaintext">...</code></pre>
+```
+
+To disable highlighting of a tag completely, use the `nohighlight` class:
+
+```html
+<pre><code class="nohighlight">...</code></pre>
+```
+
+### Supported Languages
+
+The table below shows the full list of supported languages (and corresponding classes) that are bundled with the library.  Note: Which languages are available may depend on how you've built or included the library in your app. See [Getting the Library](#getting-the-library) below.
+
 <details>
-<summary>The list of supported languages and corresponding classes.</summary>
+<summary>Reveal the full list of languages...</summary>
 
 | Language                | Classes                | Package |
 | :-----------------------| :--------------------- | :------ |
 | 1C                      | 1c                     |         |
+| 4D                      | 4d                     |[highlightjs-4d](https://github.com/highlightjs/highlightjs-4d) |
 | ABNF                    | abnf                   |         |
 | Access logs             | accesslog              |         |
 | Ada                     | ada                    |         |
@@ -54,8 +80,9 @@ work for you, you can specify the language in the `class` attribute:
 | Basic                   | basic                  |         |
 | BNF                     | bnf                    |         |
 | Brainfuck               | brainfuck, bf          |         |
-| C#                      | cs, csharp             |         |
-| C++                     | cpp, c, cc, h, c++, h++, hpp |   |
+| C#                      | csharp, cs             |         |
+| C                       | h                      |         |
+| C++                     | cpp, hpp, cc, hh, c++, h++, cxx, hxx |   |
 | C/AL                    | cal                    |         |
 | Cache Object Script     | cos, cls               |         |
 | CMake                   | cmake, cmake.in        |         |
@@ -96,6 +123,7 @@ work for you, you can specify the language in the `class` attribute:
 | Gherkin                 | gherkin                |         |
 | GN for Ninja            | gn, gni                | [highlightjs-GN](https://github.com/highlightjs/highlightjs-GN/blob/master/gn.js) |
 | Go                      | go, golang             |         |
+| Grammatical Framework   | gf                     | [highlightjs-gf](https://github.com/johnjcamilleri/highlightjs-gf) |
 | Golo                    | golo, gololang         |         |
 | Gradle                  | gradle                 |         |
 | Groovy                  | groovy                 |         |
@@ -113,6 +141,7 @@ work for you, you can specify the language in the `class` attribute:
 | Java                    | java, jsp              |         |
 | JavaScript              | javascript, js, jsx    |         |
 | Kotlin                  | kotlin, kt             |         |
+| LaTeX                   | tex                    |         |
 | Leaf                    | leaf                   |         |
 | Lasso                   | lasso, ls, lassoscript |         |
 | Less                    | less                   |         |
@@ -136,7 +165,7 @@ work for you, you can specify the language in the `class` attribute:
 | N1QL                    | n1ql                   |         |
 | NSIS                    | nsis                   |         |
 | Nginx                   | nginx, nginxconf       |         |
-| Nimrod                  | nimrod, nim            |         |
+| Nim                     | nimrod                 |         |
 | Nix                     | nix                    |         |
 | OCaml                   | ocaml, ml              |         |
 | Objective C             | objectivec, mm, objc, obj-c |    |
@@ -145,10 +174,10 @@ work for you, you can specify the language in the `class` attribute:
 | Oracle Rules Language   | ruleslanguage          |         |
 | Oxygene                 | oxygene                |         |
 | PF                      | pf, pf.conf            |         |
-| PHP                     | php, php3, php4, php5, php6 |    |
+| PHP                     | php, php3, php4, php5, php6, php7 |    |
 | Parser3                 | parser3                |         |
 | Perl                    | perl, pl, pm           |         |
-| Plaintext: no highlight | plaintext              |         |
+| Plaintext               | plaintext, txt, text   |         |
 | Pony                    | pony                   |         |
 | PostgreSQL & PL/pgSQL   | pgsql, postgres, postgresql |    |
 | PowerShell              | powershell, ps, ps1    |         |
@@ -183,7 +212,7 @@ work for you, you can specify the language in the `class` attribute:
 | Smali                   | smali                  |         |
 | Smalltalk               | smalltalk, st          |         |
 | Solidity                | solidity, sol          | [highlightjs-solidity](https://github.com/highlightjs/highlightjs-solidity) |
-| Stan                    | stan                   |         |
+| Stan                    | stan, stanfuncs        |         |
 | Stata                   | stata                  |         |
 | Structured Text         | iecst, scl, stl, structured-text | [highlightjs-structured-text](https://github.com/highlightjs/highlightjs-structured-text) |
 | Stylus                  | stylus, styl           |         |
@@ -193,7 +222,6 @@ work for you, you can specify the language in the `class` attribute:
 | Tcl                     | tcl, tk                |         |
 | Terraform (HCL)         | terraform, tf, hcl     | [highlightjs-terraform](https://github.com/highlightjs/highlightjs-terraform) |
 | Test Anything Protocol  | tap                    |         |
-| TeX                     | tex                    |         |
 | Thrift                  | thrift                 |         |
 | TP                      | tp                     |         |
 | Twig                    | twig, craftcms         |         |
@@ -211,23 +239,9 @@ work for you, you can specify the language in the `class` attribute:
 | Zephir                  | zephir, zep            |         |
 
 Languages with the specified package name are defined in separate repositories
-and not included in `highlight.pack.js`.
+and not included in `highlight.min.js`.
 </details>
 
-Classes can also be prefixed with either `language-` or `lang-`.
-
-To make arbitrary text look like code, but without highlighting, use the
-`plaintext` class:
-
-```html
-<pre><code class="plaintext">...</code></pre>
-```
-
-To disable highlighting altogether use the `nohighlight` class:
-
-```html
-<pre><code class="nohighlight">...</code></pre>
-```
 
 ## Custom Initialization
 
@@ -281,7 +295,7 @@ In worker.js:
 
 ```js
 onmessage = (event) => {
-  importScripts('<path>/highlight.pack.js');
+  importScripts('<path>/highlight.min.js');
   const result = self.hljs.highlightAuto(event.data);
   postMessage(result.value);
 };
@@ -289,8 +303,8 @@ onmessage = (event) => {
 
 ## Node.js
 
-You can use highlight.js with node to highlight content before sending it to the browser. 
-Make sure to use the `.value` property to get the formatted html. 
+You can use highlight.js with node to highlight content before sending it to the browser.
+Make sure to use the `.value` property to get the formatted html.
 For more info about the returned object refer to the api docs https://highlightjs.readthedocs.io/en/latest/api.html
 
 
@@ -302,7 +316,7 @@ const highlightedCode = hljs.highlightAuto('<span>Hello World!</span>').value
 
 ```js
 // require the highlight.js library without languages
-const hljs = require("highlight.js/lib/highlight.js");
+const hljs = require("highlight.js/lib/core");
 // separately require languages
 hljs.registerLanguage('html', require('highlight.js/lib/languages/html'));
 hljs.registerLanguage('sql', require('highlight.js/lib/languages/sql'));
@@ -359,7 +373,7 @@ import hljs from 'highlight.js';
 The default import imports all languages! Therefore it is likely to be more efficient to import only the library and the languages you need:
 
 ```js
-import hljs from 'highlight.js/lib/highlight';
+import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 hljs.registerLanguage('javascript', javascript);
 ```
@@ -367,7 +381,7 @@ hljs.registerLanguage('javascript', javascript);
 To set the syntax highlighting style, if your build tool processes CSS from your JavaScript entry point, you can import the stylesheet directly into your CommonJS-module:
 
 ```js
-import hljs from 'highlight.js/lib/highlight';
+import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/github.css';
 ```
 
@@ -383,7 +397,7 @@ The official site for the library is at <https://highlightjs.org/>.
 Further in-depth documentation for the API and other topics is at
 <http://highlightjs.readthedocs.io/>.
 
-Authors and contributors are listed in the [AUTHORS.en.txt][8] file.
+Authors and contributors are listed in the [AUTHORS.txt][8] file.
 
 [1]: http://highlightjs.readthedocs.io/en/latest/api.html#inithighlightingonload
 [2]: http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html
@@ -392,4 +406,4 @@ Authors and contributors are listed in the [AUTHORS.en.txt][8] file.
 [5]: https://highlightjs.org/download/
 [6]: http://highlightjs.readthedocs.io/en/latest/building-testing.html
 [7]: https://github.com/highlightjs/highlight.js/blob/master/LICENSE
-[8]: https://github.com/highlightjs/highlight.js/blob/master/AUTHORS.en.txt
+[8]: https://github.com/highlightjs/highlight.js/blob/master/AUTHORS.txt

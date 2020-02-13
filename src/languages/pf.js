@@ -1,12 +1,12 @@
 /*
-Language: pf.conf
+Language: packet filter config
 Description: pf.conf — packet filter configuration file (OpenBSD)
 Author: Peter Piwowarski <oldlaptop654@aol.com>
 Website: http://man.openbsd.org/pf.conf
 Category: config
 */
 
-function(hljs) {
+export default function(hljs) {
   var MACRO = {
     className: 'variable',
     begin: /\$[\w\d#@][\w\d_]*/

@@ -6,7 +6,7 @@ Requires: cpp.js
 Website: https://www.arduino.cc
 */
 
-function(hljs) {
+export default function(hljs) {
 
 	var ARDUINO_KW = {
       keyword:
@@ -94,7 +94,7 @@ function(hljs) {
         'DEFAULT OUTPUT INPUT HIGH LOW'
   };
 
-  var ARDUINO = hljs.getLanguage('cpp').rawDefinition();
+  var ARDUINO = hljs.requireLanguage('cpp').rawDefinition();
 
   var kws = ARDUINO.keywords;
 
